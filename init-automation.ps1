@@ -1,7 +1,9 @@
 ###############################################################################################
-
 # Home Automation setup script
 
+# Created By: James Ambrose
+# Usage: .\init-automation.ps1
+# Brings up a containerized version of Sonarr, Jackett and Radarr for home media automation
 ###############################################################################################
 
 ##### VARS #####
