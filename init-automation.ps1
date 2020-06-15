@@ -2,7 +2,7 @@
 # Home Automation setup script
 
 # Created By: James Ambrose
-# Usage: .\init-automation.ps1
+# Usage: .\init-automation.ps1 "[start/stop]"
 # Brings up a containerized version of Sonarr, Jackett and Radarr for home media automation
 ###############################################################################################
 
@@ -136,7 +136,7 @@ if ($args[0].ToLower() -eq "start"){
           Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):3579"
      }
 }
-elseif ($args[0].ToLower() -eq "cleanup")
+elseif ($args[0].ToLower() -eq "cleanup" -or $args[0].ToLower() -eq "stop")
 {
      docker-compose -f $sonarCfg down
      docker-compose -f $radarrCfg down
