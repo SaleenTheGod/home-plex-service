@@ -14,6 +14,7 @@ $jackettCfg = "jackett-docker-compose-config.yml"
 $sabnzbdCfg = "sabnzbd-docker-compose-config.yml"
 $plexCfg = "plex-docker-compose.config.yml"
 $organizrCfg = "organizr-docker-compose-config.yml"
+$ombiCfg = "ombi-docker-compose-config.yml"
 $dockerComposeURL = "https://docs.docker.com/compose/"
 
 if ($null -eq $args[0])
@@ -118,6 +119,22 @@ if ($args[0].ToLower() -eq "start"){
      {
           Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):9983"
      }
+
+     ##### Ombi #####
+
+     Write-Host "Attempting to start Ombi container"
+     docker-compose -f $ombiCfg up -d
+
+     if (!$?)
+     {
+          Write-Host "Failed to start Sonarr is docker running with docker-compose installed? $dockerComposeURL"
+          Write-Host "If so please check that $ombiCfg is up to date."
+          exit
+     }
+     elseif ($?)
+     {
+          Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):3579"
+     }
 }
 elseif ($args[0].ToLower() -eq "cleanup")
 {
@@ -127,6 +144,7 @@ elseif ($args[0].ToLower() -eq "cleanup")
      docker-compose -f $sabnzbdCfg down
      docker-compose -f $plexCfg down
      docker-compose -f $organizrCfg down
+     docker-compose -f $ombiCfg down
 
      if (Test-Path -Path jackket/)
      {
@@ -151,6 +169,10 @@ elseif ($args[0].ToLower() -eq "cleanup")
      if (Test-Path -Path organizr/)
      {
           Remove-Item -Recurse organizr/
+     }
+     if (Test-Path -Path ombi/)
+     {
+          Remove-Item -Recurse ombi/
      }
 }
 else 
