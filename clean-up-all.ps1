@@ -1,10 +1,12 @@
 $sonarCfg = "sonarr-docker-compose-config.yml"
 $radarrCfg = "radarr-docker-compose-config.yml"
 $jackettCfg = "jackett-docker-compose-config.yml"
+$sabnzbdCfg = "sabnzbd-docker-compose-config.yml"
 
 docker-compose -f $sonarCfg down
 docker-compose -f $radarrCfg down
 docker-compose -f $jackettCfg down
+docker-compose -f $sabnzbdCfg down
 
 if (Test-Path -Path jackket/)
 {
@@ -17,4 +19,8 @@ if (Test-Path -Path sonarr/)
 if (Test-Path -Path radarr/)
 {
      Remove-Item -Recurse radarr/
+}
+if (Test-Path -Path sabnzbd/)
+{
+     Remove-Item -Recurse sabnzbd/
 }

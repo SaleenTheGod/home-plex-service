@@ -11,6 +11,7 @@
 $sonarCfg = "sonarr-docker-compose-config.yml"
 $radarrCfg = "radarr-docker-compose-config.yml"
 $jackettCfg = "jackett-docker-compose-config.yml"
+$sabnzbdCfg = "sabnzbd-docker-compose-config.yml"
 $dockerComposeURL = "https://docs.docker.com/compose/"
 
 ##### Sonarr #####
@@ -59,4 +60,20 @@ if (!$?)
 elseif ($?)
 {
      Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):9117"
+}
+
+##### sabnzbd #####
+
+Write-Host "Attempting to start sabnzbd container"
+docker-compose -f $sabnzbdCfg up -d --remove-orphans
+
+if (!$?)
+{
+     Write-Host "Failed to start Sonarr is docker running with docker-compose installed? $dockerComposeURL"
+     Write-Host "If so please check that $sabnzbdCfg is up to date."
+     exit
+}
+elseif ($?)
+{
+     Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):8080"
 }
