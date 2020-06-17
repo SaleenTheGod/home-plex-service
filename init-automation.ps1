@@ -10,7 +10,7 @@
 
 $sonarCfg = "sonarr-docker-compose-config.yml"
 $radarrCfg = "radarr-docker-compose-config.yml"
-$jackettCfg = "jackett-docker-compose-config.yml"
+#$jackettCfg = "jackett-docker-compose-config.yml"
 $sabnzbdCfg = "sabnzbd-docker-compose-config.yml"
 $plexCfg = "plex-docker-compose.config.yml"
 $organizrCfg = "organizr-docker-compose-config.yml"
@@ -53,24 +53,24 @@ if ($args[0].ToLower() -eq "start"){
      }
      elseif ($?)
      {
-          Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):7878"
+          Write-Host "Radarr was successfully brought online. Live at http://$(hostname):7878"
      }
 
-     ##### Jackett #####
+     # ##### Jackett #####
 
-     Write-Host "Attempting to start Jackett container"
-     docker-compose -f $jackettCfg up -d
+     # Write-Host "Attempting to start Jackett container"
+     # docker-compose -f $jackettCfg up -d
 
-     if (!$?)
-     {
-          Write-Host "Failed to start Sonarr is docker running with docker-compose installed? $dockerComposeURL"
-          Write-Host "If so please check that $jackettCfg is up to date."
-          exit
-     }
-     elseif ($?)
-     {
-          Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):9117"
-     }
+     # if (!$?)
+     # {
+     #      Write-Host "Failed to start Sonarr is docker running with docker-compose installed? $dockerComposeURL"
+     #      Write-Host "If so please check that $jackettCfg is up to date."
+     #      exit
+     # }
+     # elseif ($?)
+     # {
+     #      Write-Host "Jackett was successfully brought online. Live at http://$(hostname):9117"
+     # }
 
      ##### sabnzbd #####
 
@@ -85,7 +85,7 @@ if ($args[0].ToLower() -eq "start"){
      }
      elseif ($?)
      {
-          Write-Host "Sonarr was successfully brought online. Live at http://localhost:8080"
+          Write-Host "sabnzbd was successfully brought online. Live at http://localhost:8080"
      }
 
      ##### plex #####
@@ -101,7 +101,7 @@ if ($args[0].ToLower() -eq "start"){
      }
      elseif ($?)
      {
-          Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):32400"
+          Write-Host "Plex was successfully brought online. Live at http://$(hostname):32400"
      }
 
      ##### Organizr #####
@@ -117,7 +117,7 @@ if ($args[0].ToLower() -eq "start"){
      }
      elseif ($?)
      {
-          Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):9983"
+          Write-Host "Organizr was successfully brought online. Live at http://$(hostname):9983"
      }
 
      ##### Ombi #####
@@ -133,23 +133,23 @@ if ($args[0].ToLower() -eq "start"){
      }
      elseif ($?)
      {
-          Write-Host "Sonarr was successfully brought online. Live at http://$(hostname):3579"
+          Write-Host "Ombi was successfully brought online. Live at http://$(hostname):3579"
      }
 }
 elseif ($args[0].ToLower() -eq "cleanup" -or $args[0].ToLower() -eq "stop")
 {
      docker-compose -f $sonarCfg down
      docker-compose -f $radarrCfg down
-     docker-compose -f $jackettCfg down
+     # docker-compose -f $jackettCfg down
      docker-compose -f $sabnzbdCfg down
      docker-compose -f $plexCfg down
      docker-compose -f $organizrCfg down
      docker-compose -f $ombiCfg down
 
-     if (Test-Path -Path jackket/)
-     {
-          Remove-Item -Recurse jackket/
-     }
+     # if (Test-Path -Path jackket/)
+     # {
+     #      Remove-Item -Recurse jackket/
+     # }
      if (Test-Path -Path sonarr/)
      {
           Remove-Item -Recurse sonarr/
