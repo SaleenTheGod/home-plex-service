@@ -11,7 +11,9 @@ services:
       - UMASK_SET=022 #optional
     volumes:
       - ./sonarr/data:/config
-      - ./sonarr/tv:/tv
+      - /media/plex-mount/TV-Shows:/tv
+      - /media/plex-mount/Anime:/anime
+      - /media/plex-mount/Docu-Series:/docuseries
       - ./sonarr/dl-client:/downloads
     ports:
       - 8989:8989
@@ -27,7 +29,8 @@ services:
       - UMASK_SET=022 #optional
     volumes:
       - ./radarr/data:/config
-      - ./radarr/movies:/movies
+      - /media/plex-mount/Movies:/movies
+      - /media/plex-mount/Documentaries:/documentaries
       - ./radarr/dl-client:/downloads
     ports:
       - 7878:7878
@@ -75,4 +78,44 @@ services:
     ports:
       - 3579:3579
     restart: unless-stopped
-  
+
+  nzbget:
+    image: linuxserver/nzbget:${NZBGET_VER}
+    container_name: nzbget
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - ./nzbget/config:/config
+      - ./nzbget/downloads:/downloads
+    ports:
+      - 6789:6789
+    restart: unless-stopped
+
+  lidarr:
+    image: linuxserver/lidarr:${LIDARR_VER}
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      #- UMASK_SET=022 #optional
+    volumes:
+      - ./lidarr/config:/config
+      - /media/plex-mount/Music:/music
+      - ./lidarr/downloads:/downloads
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+
+  handbrake:
+    image: jlesage/handbrake
+    container_name: handbrake
+    volumes:
+      - ./handbrake/config:/config:rw
+      - ./nzbget/downloads/completed:/storage:ro
+      - ./handbrake/watch:/watch:rw
+      - ./handbrake/output:/output:rw
+    ports:
+      - 5800:5800
