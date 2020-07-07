@@ -126,8 +126,7 @@ services:
     ports:
       - 8181:8080
     volumes:
-    
-      - ./:/data
+      - /home/jjambrose1s/Documents/git-projects/home-plex-service:/data
       - ./filebrowser/config:/config
     environment:
       - FB_BASEURL=/filebrowser
