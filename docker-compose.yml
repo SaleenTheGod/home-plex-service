@@ -119,3 +119,15 @@ services:
       - ./handbrake/output:/output:rw
     ports:
       - 5800:5800
+
+  filebrowser:
+    image: hurlenko/filebrowser
+    user: "${UID}:${GID}"
+    ports:
+      - 8181:8080
+    volumes:
+      - ./:/data
+      - ./filebrowser:/config
+    environment:
+      - FB_BASEURL=/filebrowser
+    restart: always
