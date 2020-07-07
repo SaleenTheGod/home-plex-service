@@ -131,3 +131,19 @@ services:
     environment:
       - FB_BASEURL=/filebrowser
     restart: always
+
+  jackett:
+    image: linuxserver/jackett:${JACKETT_VER}
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - AUTO_UPDATE=true #optional
+      - RUN_OPTS=run options here #optional
+    volumes:
+      - ./jackett/config:/config
+      - ./jackett/downloads:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
